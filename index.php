@@ -1,3 +1,9 @@
+<?php
+ session_start();
+
+ require_once 'backend/test/config/connect.php';
+
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -502,7 +508,7 @@
       <div class="popup__content">
         <button class="btn-close popup__btn-close popup-close"></button>
         <h2 class="page-title popup__title">Заявка принята</h2>
-        <p class="popup__subtitle">Скоро вам позвоним</p>
+        <p class="popup__subtitle">Скоро вам позвоним, статус заказа можете посмотреть в своём кабинете</p>
       </div>
     </div>
   </div>

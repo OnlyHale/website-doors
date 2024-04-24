@@ -41,7 +41,7 @@
   <div class="container header-page__container">
     <div class="header-page__start">
       <div class="logo">
-          <a class="header-page__link" href="index.html">
+          <a class="header-page__link" href="index.php">
             <span class="header-page__text">DOORS</span>
           </a>
       </div>
@@ -60,7 +60,10 @@
 
 <!-- section-аuthorization-->
 <section class="section-authorization">
+<div class ="authorization-box">
   <div class="authorization">
+  <p class = 'center textBig'> Авторизируйтесь
+  </p>
     <form class="section-authorization_form" action="backend/signin.php" method="post">
       <label class = 'text center'>Телефон</label>
       <input class="text authorization_input input" name="phone" type = "text">
@@ -78,6 +81,7 @@
     unset($_SESSION['msg']);
     }
     ?>
+  </div>
   </div>
 </section>
 <!-- /section-аuthorization-->

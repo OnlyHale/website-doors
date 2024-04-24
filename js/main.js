@@ -94,6 +94,105 @@
 
 /*profile start*/
 
+/* profile team start */
+;(function() {
+  var container = document.querySelector('.scroll-container');
+
+  if (container === null) {
+    return;
+  }
+
+  var removeChildren = function(item) {
+    while (item.firstChild) {
+      item.removeChild(item.firstChild);
+    }
+  };
+
+  var updateChildren = function(item, children) {
+    removeChildren(item);
+    for (var i = 0; i < children.length; i += 1) {
+      item.appendChild(children[i]);
+    }
+  };
+
+  var buttons = document.querySelector('.consultant_button')
+  if (buttons === null) {
+    return;
+  }
+  buttons = buttons.querySelectorAll('.order-button');
+
+  var orderItems = container.querySelectorAll('.order-box');
+
+  var filterValue = localStorage.getItem('selectedFilter') || 'fresh';
+  localStorage.setItem('selectedFilter', filterValue);
+
+  var filteredItems = [];
+  for (var i = 0; i < orderItems.length; i += 1) {
+    var current = orderItems[i];
+    if (current.getAttribute('data-category') === filterValue) {
+      filteredItems.push(current);
+    }
+  }
+  updateChildren(container, filteredItems);
+
+  buttons.forEach(function (element) {
+    var filterCurrent = element.getAttribute('data-filter');
+    if(filterValue === filterCurrent) {
+      element.classList.add('is-active');
+    }
+  });
+
+
+
+  var infoNotApl = document.querySelector('.notApl');
+
+  if(filteredItems.length === 0) {
+    infoNotApl.style.display = "flex";
+  } else {
+    infoNotApl.style.display = "none";
+  }
+
+  buttons.forEach(function (element) {
+    element.addEventListener('click', function(e) {
+      window.location.reload();
+    var item = e.target;
+    if (item === null || item.classList.contains('is-active')) {
+      return;
+    }
+    var buttons_area = document.querySelector('.consultant_button');
+    e.preventDefault();
+    var filterValue = item.getAttribute('data-filter');
+    var previousBtnActive = buttons_area.querySelector('.order-button.is-active');
+
+
+    previousBtnActive.classList.remove('is-active');
+
+    item.classList.add('is-active');
+
+    var filteredItems = [];
+    for (var i = 0; i < orderItems.length; i += 1) {
+      var current = orderItems[i];
+      if (current.getAttribute('data-category') === filterValue) {
+        filteredItems.push(current);
+      }
+    }
+
+    updateChildren(container, filteredItems);
+
+    var infoNotApl = document.querySelector('.notApl');
+
+    if(filteredItems.length === 0) {
+      infoNotApl.style.display = "flex";
+    } else {
+      infoNotApl.style.display = "none";
+    }
+
+      localStorage.setItem('selectedFilter', filterValue);
+  });
+});
+})();
+/* profile team end */
+
 // Функция для переключения списка
 function toggleList(label, list) {
   if (list.style.display === 'block') {
@@ -467,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var formSend = function(form) {
     var data = serialize(form);
     var xhr = new XMLHttpRequest();
-    var url = 'mail/mail.php';
+    var url = 'backend/mail.php';
     var url_backend = 'backend/database.php';
     
     xhr.open('POST', url);

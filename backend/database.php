@@ -4,6 +4,7 @@
     if ($method !== 'POST') {
         exit();
     }
+    session_start();
 
     require_once 'test/config/connect.php';
 
@@ -101,6 +102,11 @@
 
     $time = strtotime("+ 3 hours");
 
-    $sql = "INSERT INTO `applications` (`id`, `client_id`, `status`, `door_id`, `is_fresh`, `addr_id`, `time`)
-                   VALUES (NULL, $id_client, 'Ожидается', $id_door, 1, $addr_id, $time)";
+    $sql = "INSERT INTO `applications` (`id`, `client_id`, `status`, `door_id`, `code_status`, `addr_id`, `time`)
+                   VALUES (NULL, $id_client, 'Ожидается', $id_door, 0, $addr_id, $time)";
+
     $connect->query($sql);
+
+    $id_order = $connect->lastInsertId();
+
+    $_SESSION['apl'] = $id_order;

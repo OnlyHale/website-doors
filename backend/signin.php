@@ -48,7 +48,13 @@
         die();
     }
 
-    $sql = "SELECT id, fname, mobtel FROM `client` WHERE mobtel = :phone";
+    $sql = "SELECT c.id as id,
+                   c.fname as fname,
+                   c.mobtel as mobtel,
+                   u.id as user_id
+    FROM `client` c
+        INNER JOIN `users` u on u.phone = c.mobtel
+    WHERE mobtel = :phone";
 
     $sql = $connect->prepare($sql);
 
@@ -57,6 +63,7 @@
 
     $_SESSION['user']['id'] = $result[0]['id'];
     $_SESSION['user']['name'] = $result[0]['fname'];
+    $_SESSION['user']['user_id'] = $result[0]['user_id'];
 
     $sql = "SELECT role FROM `users` WHERE phone = :phone";
 
