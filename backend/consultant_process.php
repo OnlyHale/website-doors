@@ -226,7 +226,7 @@ if($_POST['action'] == 'Return'){
 
     $sql = "UPDATE `applications`
                 SET `code_status` = '0',
-                    `status` = 'Ожидается'
+                    `status` = 'Позвоним вам и уточним данные'
                 WHERE `applications`.`id` = :id";
 
     $sql = $connect->prepare($sql);

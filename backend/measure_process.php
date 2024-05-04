@@ -64,7 +64,7 @@ if($_POST['action'] == 'Confirm'){
               $timestamp_set = strtotime('+3 hours');
           } else {
               $timestamp_set = strtotime($data_set);
-              $timestamp_set = $timestamp + 3 * 3600;
+              $timestamp_set = $timestamp_set + 3 * 3600;
           }
 
       $data_set = date('d.m.Y', $timestamp_set);
@@ -73,10 +73,21 @@ if($_POST['action'] == 'Confirm'){
 
     $sql = "UPDATE `applications`
             SET    `code_status` = '2',
-                   `time` = $timestamp,
+                   `time` = $timestamp_set,
                    `door_id` = $door_id,
                    `status` = 'Позвоним вам и сделаем монтаж'
             WHERE `applications`.`id` = :id";
+
+    $sql = $connect->prepare($sql);
+
+    $sql->execute([':id' => $id_order]);
+    $sql->fetch();
+
+    // Order_measure
+
+    $sql = "UPDATE `order_measure`
+            SET    `data_measure` = '$data'
+            WHERE `order_measure`.`apl_id` = :id";
 
     $sql = $connect->prepare($sql);
 

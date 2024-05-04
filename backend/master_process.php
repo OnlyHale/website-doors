@@ -45,10 +45,8 @@ if($_POST['action'] == 'Confirm') {
     // Applications
 
      $sql = "UPDATE `applications`
-                SET    `code_status` = '2',
-                       `time` = $timestamp,
-                       `door_id` = $door_id,
-                       `status` = 'Позвоним вам и сделаем монтаж'
+                SET    `code_status` = '3',
+                       `status` = 'Заказ выполнен'
                 WHERE `applications`.`id` = :id";
 
         $sql = $connect->prepare($sql);
@@ -56,6 +54,41 @@ if($_POST['action'] == 'Confirm') {
         $sql->execute([':id' => $id_order]);
         $sql->fetch();
 
+      $sql = "SELECT cs.id as cs_id,
+                     es.id as es_id
+              FROM `order_set` os
+                   INNER JOIN `contract_set`cs on cs.id = os.id_contract_set
+                   INNER JOIN `exec_set` es on es.id = cs.id_exec_set
+              WHERE os.apl_id = $id_order";
+
+      $sql = $connect->query($sql);
+
+      $result = $sql->fetchAll();
+
+      $cs_id = $result[0]['cs_id'];
+      $es_id = $result[0]['es_id'];
+
+      // Update contract_set
+
+       $sql = "UPDATE `contract_set`
+              SET    `res_set` = '$cost'
+              WHERE id = :id";
+
+      $sql = $connect->prepare($sql);
+
+      $sql->execute([':id' => $cs_id]);
+      $sql->fetch();
+
+      // Update exec_set
+
+      $sql = "UPDATE `exec_set`
+            SET    `id_person` = $id_person
+            WHERE id = :id";
+
+    $sql = $connect->prepare($sql);
+
+    $sql->execute([':id' => $es_id]);
+    $sql->fetch();
 
 }
 

@@ -1799,8 +1799,22 @@ img {
 .order-client-data {
   width: 50%;
   display: grid;
-  align-content: end;
+  align-content: start;
   height: 100%;
+}
+
+.order-client-data_start {
+  width: 50%;
+  display: grid;
+  align-content: start;
+  height: 50%;
+}
+
+.order-client-data_end {
+  width: 50%;
+  display: grid;
+  align-content: end;
+  height: 50%;
 }
 
 .order-client_photo {
@@ -1858,14 +1872,15 @@ img {
 .order-box_admin {
   display: flex;
   flex-direction: column;
-  min-width: 200px; /* Минимальная ширина каждого блока */
-  height: 100px; /* Высота блока*/
+  min-width: 250px; /* Минимальная ширина каждого блока */
+  height: 130px; /* Высота блока*/
   border: 2px solid black;
   border-radius: 10px;
   margin-right: 20px; /* Отступ справа */
   padding: 10px; /* Внутренний отступ */
   background-color: #fff;
   text-align: center;
+  justify-content: center;
 }
 
 .order-detail_admin {

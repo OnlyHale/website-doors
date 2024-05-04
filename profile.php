@@ -121,8 +121,8 @@
                                   <div class='order-title text'>".$array[$i]['status']."</div>
                                   <div class='order-detail-container'>
                                       <div class='order-client-data text'>
-                                        <p class = 'order-detail detail_client'>Заявка №".$id_order."</p>
                                         <p class = 'order-detail detail_client'>Дата : ".$data."</p>
+                                        <p class = 'order-detail detail_client'>Заявка №".$id_order."</p>
                                         <p class = 'order-detail detail_client'>Дверь : ".$door."</p>
                                         <p class = 'order-detail detail_client'>Адрес : ".$addr."</p>
                                       </div>
@@ -144,11 +144,26 @@
     if($_SESSION['user']['role'] == 'admin'){
             echo "<p class = 'profile_top_text'>Информация</p><br>";
 
-            $array_sql = array("Всего заявок" => "SELECT COUNT(*) FROM `applications` apl
-                                                  WHERE apl.is_delete = 0",
-                              "Свежие заявки" => "SELECT COUNT(*) FROM `applications` apl
-                                                 WHERE apl.is_delete = 0 and
-                                                       apl.code_status = 0");
+            $array_sql = array(
+                        "Выполнено заказов за этот месяц" => "SELECT COUNT(*) FROM `applications` apl
+                                                                      WHERE apl.is_delete = 0 and
+                                                                            apl.code_status = 3 and
+                                                                            apl.time <= UNIX_TIMESTAMP() and
+                                                                            apl.time >= UNIX_TIMESTAMP(DATE_FORMAT(NOW() ,'%Y-%m-01 00:00:00'));",
+                        "Выполнено заказов" => "SELECT COUNT(*) FROM `applications` apl
+                                              WHERE apl.is_delete = 0 and
+                                                    apl.code_status = 3",
+                        "Всего заявок" => "SELECT COUNT(*) FROM `applications` apl
+                                                                          WHERE apl.is_delete = 0",
+                      "Свежие заявки" => "SELECT COUNT(*) FROM `applications` apl
+                                         WHERE apl.is_delete = 0 and
+                                               apl.code_status = 0",
+                   "Заявок на замер" => "SELECT COUNT(*) FROM `applications` apl
+                                    WHERE apl.is_delete = 0 and
+                                          apl.code_status = 1",
+                  "Заявок на монтаж" => "SELECT COUNT(*) FROM `applications` apl
+                                      WHERE apl.is_delete = 0 and
+                                            apl.code_status = 2");
 
             $admin_info = "";
 
@@ -501,7 +516,7 @@
                                           <div class='order-detail-container text'>
                                               <div class='order-half center'>
                                                 <label>Дата замера</label>
-                                                <input class='order-detail detail_consultant input' name='data' value='$data' readonly='readonly'>
+                                                <input class='order-detail detail_consultant input' name='data' value='$data' required>
                                                 <label>Дата монтажа</label>
                                                 <input class='order-detail detail_consultant input' name='data_set' value='$data' required>
                                                 <label>Дверь</label>

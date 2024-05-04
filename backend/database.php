@@ -103,7 +103,7 @@
     $time = strtotime("+ 3 hours");
 
     $sql = "INSERT INTO `applications` (`id`, `client_id`, `status`, `door_id`, `code_status`, `addr_id`, `time`)
-                   VALUES (NULL, $id_client, 'Ожидается', $id_door, 0, $addr_id, $time)";
+                   VALUES (NULL, $id_client, 'Позвоним вам и уточним данные', $id_door, 0, $addr_id, $time)";
 
     $connect->query($sql);
 
